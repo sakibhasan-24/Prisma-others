@@ -10,7 +10,8 @@
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
        "target": "ES2020",
-    "types": [],
+    // "types": [],
+      "types": ["node"],
     "esModuleInterop": true,
 
     // For nodejs:
@@ -43,5 +44,7 @@
     "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",
     "skipLibCheck": true,
-  }
+  },
+   "include": ["src"],  
+  "exclude": ["node_modules"] 
 }
