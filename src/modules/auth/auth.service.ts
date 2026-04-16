@@ -3,7 +3,7 @@ import bcrypt from "bcrypt";
 import { prisma } from "../../lib/prisma";
 import { createToken } from "../../utills/jwt";
 export const signUpUser=async (payload:any)=>{
-
+    console.log(payload)
     //TODO: implement signUpUser
     const hashedPassword=await bcrypt.hash(payload.password,10)
     const user=await prisma.user.create({

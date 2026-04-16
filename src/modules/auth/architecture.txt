@@ -1,0 +1,30 @@
+1. Proper Auth Flow
+Signup
+validate input (Zod)
+hash password (bcrypt)
+check existing user
+save user
+return token
+
+
+2-clean Architecture
+Route → Controller → Service → DB
+
+
+3.Validation Layer (Zod)
+No invalid data reaches DB
+Centralized schemas
+
+
+4. Utility Layer
+
+Reusable:
+
+password hashing
+JWT handlin
+
+5.error System
+Centralized error handling
+Custom error classes
+
+6.response design..

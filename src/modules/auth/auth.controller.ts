@@ -8,6 +8,7 @@ export const signUp=async(req:Request,res:Response) =>{
         const result=await signUpUser(req.body)
      res.status(201).json({message:"User Created Successfully",result})
     } catch (error) {
-        res.status(500).json({message:"Internal Server Error"})
+        console.log(error)
+        res.status(500).json({message:"Internal Server Error",error})
     }
 }

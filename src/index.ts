@@ -19,5 +19,5 @@ app.get("/", (req, res) => {
 app.use("/api/auth",signUp)
 
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}..................hghg`);
+  console.log(`Server running on port ${PORT}.................`);
 });
