@@ -3,6 +3,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import signUp from "./modules/auth/auth.routes";
 import { globalErrorHandler } from "./middleware/error.middleware";
+import login from "./modules/auth/auth.routes";
 
 dotenv.config();
 
@@ -18,6 +19,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/auth",signUp)
+app.use("/api/auth",login)
 
 
 app.use(globalErrorHandler)

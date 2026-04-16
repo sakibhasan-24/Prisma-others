@@ -3,7 +3,7 @@
 
 import type { Request, Response } from "express";
 import  { tryCatchWrapper } from "../../utills/catchAsync";
-import { signUpUser } from "./auth.service";
+import { signInUser, signUpUser } from "./auth.service";
 import { sendResponse } from "../../utills/response";
 
 // export const signUp=async(req:Request,res:Response) =>{
@@ -27,4 +27,15 @@ export const signUp=tryCatchWrapper(async(req:Request,res:Response) =>{
         data:result
     })
     
+})
+
+export const login=tryCatchWrapper(async(req:Request,res:Response) =>{
+    const result=await signInUser(req.body)
+
+    sendResponse({
+        res,
+        statusCode:201,
+        message:"User Login Successfully",
+        data:result
+    })
 })

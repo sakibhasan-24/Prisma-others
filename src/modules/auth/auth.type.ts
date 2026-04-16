@@ -12,7 +12,6 @@ import { signUpSchema } from "./auth.validation";
 
 export type SignupInput = z.infer<typeof signUpSchema>;
 
-
 export type LoginInput = {
   email: string;
   password: string;
