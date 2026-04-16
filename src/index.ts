@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import signUp from "./modules/auth/auth.routes";
+import { globalErrorHandler } from "./middleware/error.middleware";
 
 dotenv.config();
 
@@ -18,6 +19,8 @@ app.get("/", (req, res) => {
 
 app.use("/api/auth",signUp)
 
+
+app.use(globalErrorHandler)
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}.................`);
 });
