@@ -3,6 +3,9 @@ import 'dotenv/config'
 import jwt from 'jsonwebtoken'
 
 
+type JwtPayload = {
+  userId: number;
+};
 
 // create token
 export const createToken = (payload: any) => {
@@ -13,5 +16,5 @@ export const createToken = (payload: any) => {
 
 // verify token
 export const verifyToken = (token: string) => {
-    return jwt.verify(token, process.env.JWT_SECRET as string)
+    return jwt.verify(token, process.env.JWT_SECRET as string) as JwtPayload
 }

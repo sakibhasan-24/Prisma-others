@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import signUp from "./modules/auth/auth.routes";
 import { globalErrorHandler } from "./middleware/error.middleware";
 import login from "./modules/auth/auth.routes";
+import { loginValidation } from "./middleware/auth.middleware";
 
 dotenv.config();
 
@@ -14,7 +15,7 @@ app.use(express.json());
 
 const PORT = process.env.PORT || 5000;
 
-app.get("/", (req, res) => {
+app.get("/",loginValidation, (req, res) => {
   res.send("Server is running 🚀");
 });
 
