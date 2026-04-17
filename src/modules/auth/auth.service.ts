@@ -70,7 +70,7 @@ export const signInUser=async (payload:LoginInput)=>{
         throw new AppError("Invalid Credentials",401)
     }
     // create token
-    const token=createToken({userIdd:user.id})
+    const token=createToken({userId:user.id})
     const {password,...rest}=user
     return {token,rest}
 }

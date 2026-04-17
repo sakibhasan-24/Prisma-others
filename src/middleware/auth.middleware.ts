@@ -5,7 +5,7 @@ import { verifyToken } from "../utills/jwt";
 export const loginValidation=(req:Request,res:Response,next:NextFunction)=>{
     // get token from header
     const token=req.headers.authorization;
-    console.log(token)
+    // console.log(token)
     if(!token){
         return res.status(401).json({message:"No token provided"})
     }
@@ -16,7 +16,7 @@ export const loginValidation=(req:Request,res:Response,next:NextFunction)=>{
         return res.status(401).json({message:"Invalidssssss token",bearerToken})
     }
     // verify 
-    console.log(req.user)
+    // console.log(req.user)
    try {
      const decoded= verifyToken(bearerToken)
      console.log("decoded",decoded)

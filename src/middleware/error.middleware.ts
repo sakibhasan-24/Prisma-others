@@ -11,10 +11,9 @@ export const globalErrorHandler=(err:any,req:Request,res:Response,next:NextFunct
 
     }
 
-    console.log(err)
     return res.status(500).json({
         success: false,
-        message: "something went wrong",
-        errror: err,
+        message: "something went wrongs",
+        errror: err.name,
     })
 }

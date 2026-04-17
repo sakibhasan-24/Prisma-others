@@ -5,6 +5,7 @@ import signUp from "./modules/auth/auth.routes";
 import { globalErrorHandler } from "./middleware/error.middleware";
 import login from "./modules/auth/auth.routes";
 import { loginValidation } from "./middleware/auth.middleware";
+import messageRoutes from "./modules/message/message.routes";
 
 dotenv.config();
 
@@ -21,7 +22,7 @@ app.get("/",loginValidation, (req, res) => {
 
 app.use("/api/auth",signUp)
 app.use("/api/auth",login)
-
+app.use("/api/message",messageRoutes)
 
 app.use(globalErrorHandler)
 app.listen(PORT, () => {
