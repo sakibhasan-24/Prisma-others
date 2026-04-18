@@ -21,3 +21,34 @@ export const createMessage=async (userId:number,payload:{
     //return message
     return message
 }
+
+
+
+export const getSingleMessageService = async (
+  messageId: number,
+  userId: number
+) => {
+
+  const message = await prisma.message.findUnique({
+    where: { id: messageId },
+  });
+
+ 
+  if (!message) {
+    throw new AppError("Message not found", 404);
+  }
+
+
+  if (message.userId !== userId) {
+    throw new AppError("Unauthorized access", 403);
+  }
+
+  const now = new Date();
+
+  if (now < message.unlockAt) {
+    throw new AppError("Message is still locked 🔒", 403);
+  }
+
+
+  return message;
+};

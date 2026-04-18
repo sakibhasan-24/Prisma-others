@@ -1,6 +1,6 @@
 import type { Request, Response } from "express";
 import { tryCatchWrapper } from "../../utills/catchAsync";
-import {createMessage } from "./message.service";
+import {createMessage, getSingleMessageService } from "./message.service";
 import { sendResponse } from "../../utills/response";
 
 export const createMessageController=tryCatchWrapper(async (req:Request,res:Response)=>{
@@ -16,3 +16,17 @@ export const createMessageController=tryCatchWrapper(async (req:Request,res:Resp
     data: result,
   });
 })
+
+export const getSingleMessage = tryCatchWrapper( async (req: Request, res: Response) => {
+  const userId = req.user!.userId;
+  const messageId = Number(req.params.id);
+
+  const result = await getSingleMessageService(messageId, userId);
+
+  sendResponse({
+    res,
+    statusCode: 200,
+    message: "Message fetched successfully",
+    data: result,
+  });
+});
