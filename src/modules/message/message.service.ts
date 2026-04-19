@@ -6,6 +6,7 @@ export const createMessage=async (userId:number,payload:{
     unlockAt:string
 })=>{
     //create message
+    // console.log(payload,"payload")
     const convertDate=new Date(payload.unlockAt)
     if(convertDate<=new Date()){
         throw new AppError('unlockAt must be in the future',400)
@@ -15,9 +16,10 @@ export const createMessage=async (userId:number,payload:{
       content: payload.content,
       unlockAt:payload.unlockAt,
       userId: userId,
+      
     },
     })
-    console.log(message)
+    // console.log(message,"message")
     //return message
     return message
 }
@@ -152,4 +154,26 @@ export const deleteMessageService = async (
   });
 
   return null;
+};
+
+
+export const getPublicMessageService = async (shareId: string) => {
+  const message = await prisma.message.findUnique({
+    where: { shareId },
+  });
+  console.log("message",message)
+  if (!message) {
+    throw new AppError("Message not found", 404);
+  }
+
+  const now = new Date();
+
+  const isUnlocked = now >= message.unlockAt;
+
+  return {
+    id: message.id,
+    unlockAt: message.unlockAt,
+    isUnlocked,
+    content: isUnlocked ? message.content : "🔒 This message is locked",
+  };
 };
