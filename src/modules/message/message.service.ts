@@ -52,3 +52,26 @@ export const getSingleMessageService = async (
 
   return message;
 };
+
+
+// get all messages
+export const getAllMessagesService = async (userId: number) => {
+  const messages = await prisma.message.findMany({
+    where: { userId: userId },
+    orderBy:{
+      createdAt: 'desc'
+    }
+  })
+  const now=new Date()
+  const formatted=messages.map((msg)=>{
+    const isUnlocked=now>=msg.unlockAt;
+    return{
+       id: msg.id,
+      content: isUnlocked ? msg.content : "🔒 Locked message",
+      unlockAt: msg.unlockAt,
+      isUnlocked
+    }
+
+  })
+  return formatted
+}
