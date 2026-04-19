@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { validate } from "../../middleware/validate.middleware";
 import { createMessageSchema } from "./message.validation";
-import { createMessageController, getSingleMessage } from "./message.controller";
+import { createMessageController, getAllMessages, getSingleMessage } from "./message.controller";
 import { loginValidation } from "../../middleware/auth.middleware";
 
 
@@ -12,6 +12,7 @@ router.post("/",loginValidation,validate(createMessageSchema),createMessageContr
 router.get(
   "/:id",loginValidation,getSingleMessage
 );
+router.get("/",loginValidation,getAllMessages)
 
 
 export default router;
