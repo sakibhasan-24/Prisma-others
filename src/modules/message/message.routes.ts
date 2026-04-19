@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { validate } from "../../middleware/validate.middleware";
-import { createMessageSchema } from "./message.validation";
-import { createMessageController, getAllMessages, getSingleMessage } from "./message.controller";
+import { createMessageSchema, updateMessageSchema } from "./message.validation";
+import { createMessageController, deleteMessage, getAllMessages, getSingleMessage, updateMessage } from "./message.controller";
 import { loginValidation } from "../../middleware/auth.middleware";
 
 
@@ -14,5 +14,7 @@ router.get(
 );
 router.get("/",loginValidation,getAllMessages)
 
+router.patch("/:id",loginValidation,validate(updateMessageSchema),updateMessage);
 
+router.delete("/:id",loginValidation,deleteMessage);
 export default router;

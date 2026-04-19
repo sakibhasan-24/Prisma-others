@@ -75,3 +75,81 @@ export const getAllMessagesService = async (userId: number) => {
   })
   return formatted
 }
+
+
+
+// UPDATE MESSAGE
+// Only owner can upadet && before unlocked date
+export const updateMessageService = async (
+  messageId: number,
+  userId: number,
+  payload: { content?: string; unlockAt?: string }
+) => {
+  const message = await prisma.message.findUnique({
+    where: { id: messageId },
+  });
+
+  if (!message) {
+    throw new AppError("Message not found", 404);
+  }
+
+
+  if (message.userId !== userId) {
+    throw new AppError("Unauthorized", 403);
+  }
+
+ 
+  if (new Date() >= message.unlockAt) {
+    throw new AppError("Cannot update unlocked message", 400);
+  }
+
+
+  let newUnlockAt = message.unlockAt;
+  if (payload.unlockAt) {
+    const date = new Date(payload.unlockAt);
+    if (date <= new Date()) {
+      throw new AppError("unlockAt must be future", 400);
+    }
+    newUnlockAt = date;
+  }
+
+  const updated = await prisma.message.update({
+    where: { id: messageId },
+    data: {
+      content: payload.content ?? message.content,
+      unlockAt: newUnlockAt,
+    },
+  });
+
+  return updated;
+}
+
+
+
+export const deleteMessageService = async (
+  messageId: number,
+  userId: number
+) => {
+  const message = await prisma.message.findUnique({
+    where: { id: messageId },
+  });
+
+  if (!message) {
+    throw new AppError("Message not found", 404);
+  }
+
+
+  if (message.userId !== userId) {
+    throw new AppError("Unauthorized", 403);
+  }
+
+  if (new Date() >= message.unlockAt) {
+    throw new AppError("Cannot delete unlocked message", 400);
+  }
+
+  await prisma.message.delete({
+    where: { id: messageId },
+  });
+
+  return null;
+};
