@@ -34,7 +34,7 @@ app.use("/api/auth",authLimiter,login)
 app.use("/api/message",messageRoutes)
 
 app.use(globalErrorHandler)
-startUnlockJob()
+// startUnlockJob()
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}.................`);
 });
