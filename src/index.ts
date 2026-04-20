@@ -9,6 +9,7 @@ import messageRoutes from "./modules/message/message.routes";
 import helmet from "helmet";
 import morgan from "morgan";
 import { authLimiter, globalLimiter } from "./middleware/security.middleware";
+import { startUnlockJob } from "./job/unlock.job";
 
 
 dotenv.config();
@@ -33,6 +34,7 @@ app.use("/api/auth",authLimiter,login)
 app.use("/api/message",messageRoutes)
 
 app.use(globalErrorHandler)
+startUnlockJob()
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}.................`);
 });
