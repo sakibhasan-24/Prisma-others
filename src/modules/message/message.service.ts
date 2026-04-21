@@ -1,5 +1,6 @@
 import { prisma } from "../../lib/prisma"
 import { AppError } from "../../utills/error"
+import { getPagination } from "../../utills/pagination"
 
 export const createMessage=async (userId:number,payload:{
     content:string,
@@ -57,26 +58,45 @@ export const getSingleMessageService = async (
 
 
 // get all messages
-export const getAllMessagesService = async (userId: number) => {
-  const messages = await prisma.message.findMany({
-    where: { userId: userId },
-    orderBy:{
-      createdAt: 'desc'
-    }
-  })
-  const now=new Date()
-  const formatted=messages.map((msg)=>{
-    const isUnlocked=now>=msg.unlockAt;
-    return{
-       id: msg.id,
+
+export const getAllMessagesService = async (userId: number, query: any) => {
+  const { page, limit, skip } = getPagination(query);
+
+  const [messages, total] = await Promise.all([
+    prisma.message.findMany({
+      where: { userId },
+      orderBy: { createdAt: "desc" },
+      skip,
+      take: limit,
+    }),
+    prisma.message.count({
+      where: { userId },
+    }),
+  ]);
+
+  const now = new Date();
+
+  const formatted = messages.map((msg) => {
+    const isUnlocked = now >= msg.unlockAt;
+
+    return {
+      id: msg.id,
       content: isUnlocked ? msg.content : "🔒 Locked message",
       unlockAt: msg.unlockAt,
-      isUnlocked
-    }
+      isUnlocked,
+    };
+  });
 
-  })
-  return formatted
-}
+  return {
+    meta: {
+      page,
+      limit,
+      total,
+      totalPage: Math.ceil(total / limit),
+    },
+    data: formatted,
+  };
+};
 
 
 
