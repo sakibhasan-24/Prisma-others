@@ -60,17 +60,27 @@ export const getSingleMessageService = async (
 // get all messages
 
 export const getAllMessagesService = async (userId: number, query: any) => {
-  const { page, limit, skip } = getPagination(query);
-
+  const { page, limit, skip,sortBy,sortOrder,search } = getPagination(query);
+  const whereCondition:any={
+    userId
+  }
+  if(search){
+    whereCondition.content={
+      contains:search,
+      mode:"insensitive"
+    }
+  }
   const [messages, total] = await Promise.all([
     prisma.message.findMany({
-      where: { userId },
-      orderBy: { createdAt: "desc" },
+      where: whereCondition,
+      orderBy: { 
+        [sortBy]: sortOrder 
+      },
       skip,
       take: limit,
     }),
     prisma.message.count({
-      where: { userId },
+      where: whereCondition,
     }),
   ]);
 

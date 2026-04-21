@@ -5,12 +5,13 @@ export const getPagination = (query: any) => {
 
   const sortBy = query.sortBy || "createdAt";
   const sortOrder = query.sortOrder === "asc" ? "asc" : "desc";
-
+    const search = query.search || "";
   return {
     page,
     limit,
     skip,
     sortBy,
     sortOrder,
+    search
   };
 };

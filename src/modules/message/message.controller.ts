@@ -35,7 +35,7 @@ export const getSingleMessage = tryCatchWrapper( async (req: Request, res: Respo
 export const getAllMessages =tryCatchWrapper( async (req: Request, res: Response) => {
   const userId = req.user!.userId;
 
-  const result = await getAllMessagesService(userId);
+  const result = await getAllMessagesService(userId, req.query);
   // console.log(result)
   sendResponse({
     res,
