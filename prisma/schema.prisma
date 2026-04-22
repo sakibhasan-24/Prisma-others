@@ -24,6 +24,7 @@ model Message {
   unlockAt    DateTime
   isUnlocked  Boolean  @default(false)
    isNotified  Boolean  @default(false)
+   isDeleted  Boolean  @default(false)
   user        User     @relation(fields: [userId], references: [id])
   shareId     String ?  @unique @default(cuid())
   userId      Int
